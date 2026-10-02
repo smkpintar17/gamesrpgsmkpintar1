@@ -1,4 +1,4 @@
-const APP_SCRIPT_URL='PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const APP_SCRIPT_URL='https://script.google.com/macros/s/AKfycbxkhqBPQhNVoG1Q34opocvRF8gPN_xRtQ-ydruOAsosK-G8KJq8Wp4md8dlJTX_S79EAg/exec';
 const DEMO_USERS={
  rplx:{password:'rpl123',name:'RPL Kelas X',className:'X RPL',major:'RPL',role:'player'},
  rpli:{password:'rpl123',name:'RPL Kelas XI',className:'XI RPL',major:'RPL',role:'player'},
