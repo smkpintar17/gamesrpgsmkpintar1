@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RPG SMK PINTAR — SMK 17 Muncar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<section id="authScreen" class="screen auth-screen">
+  <div class="auth-card glass">
+    <div class="brand-mark">⚔️</div>
+    <h1>RPG SMK PINTAR</h1><p class="subtitle">SMK 17 MUNCAR • RPL ADVENTURE • LEVEL 1–53</p>
+    <div class="tabs"><button class="tab active" data-tab="login">LOGIN</button><button class="tab" data-tab="register">DAFTAR</button></div>
+    <form id="loginForm" class="form-panel">
+      <input id="loginUser" required placeholder="Username"><input id="loginPass" required type="password" placeholder="Password">
+      <button class="primary" type="submit">MASUK PETUALANGAN</button>
+      <p id="loginHint" class="hint">Akun demo: rplx / rpl123</p>
+    </form>
+    <form id="registerForm" class="form-panel hidden">
+      <input id="regName" required placeholder="Nama lengkap"><input id="regClass" required placeholder="Kelas, contoh: XI RPL 1">
+      <input id="regUser" required placeholder="Username"><input id="regPass" required minlength="4" type="password" placeholder="Password minimal 4 karakter">
+      <select id="regMajor"><option>RPL</option><option>AKL</option><option>BDP</option><option>PH</option><option>TO</option><option>TP</option></select>
+      <button class="primary" type="submit">DAFTAR & MULAI</button>
+      <p class="hint">Data pendaftaran dapat dikirim ke Google Sheets setelah URL Apps Script diisi.</p>
+    </form>
+    <div class="demo"><b>Demo:</b> rplx/rpl123 • rpli/rpl123 • rplii/rpl123 • rpliii/rpl123 • superadmin/admin123</div>
+  </div>
+</section>
+
+<section id="gameScreen" class="screen hidden">
+<header class="topbar"><div><b>⚔️ RPG SMK PINTAR</b><small> SMK 17 Muncar • Rekayasa Perangkat Lunak</small></div><div id="hud"></div><button id="logoutBtn" class="ghost">Keluar</button></header>
+<main class="layout">
+  <aside class="side glass">
+    <div class="portrait"><img src="assets/hero.png" alt="Hero RPL"></div>
+    <h2 id="playerName">Petualang</h2><p id="playerClass"></p>
+    <div class="stat"><span>Level</span><b id="sideLevel">1</b></div><div class="stat"><span>XP</span><b id="sideXp">0</b></div><div class="stat"><span>HP</span><b id="sideHp">100</b></div>
+    <div class="xpbar"><i id="xpBar"></i></div><small id="xpLabel">0/100 XP</small>
+    <div id="characterPicker" class="character-picker"><p class="hint">Pilih karakter</p><div class="char-grid"><button data-char="coder">🧑‍💻<b>CODER</b><small>+10% XP</small></button><button data-char="designer">🧙<b>DESIGNER</b><small>+15 HP</small></button><button data-char="debugger">🦸<b>DEBUGGER</b><small>+1 kesempatan</small></button></div></div><button id="continueBtn" class="primary full">▶ LANJUTKAN PETUALANGAN</button>
+  </aside>
+  <section class="content">
+    <div id="adminPanel" class="glass hidden"><div class="section-head"><h2>🛡️ SUPERADMIN — DATA PEMAIN</h2><button id="refreshAdmin" class="primary">Refresh</button></div><div id="adminStats" class="admin-stats"></div><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Nama</th><th>Kelas</th><th>Username</th><th>Major</th><th>Level</th><th>XP</th><th>Event</th><th>Detail</th></tr></thead><tbody id="playerRows"></tbody></table></div></div>
+    <div id="playerPanel">
+      <div class="glass welcome"><div><p class="eyebrow">PETA PETUALANGAN</p><h1>RPL ADVENTURE</h1><p>53 tantangan berbeda: 50 tantangan RPL + 3 level refleksi jujur tentang harapan, RPL, dan karya yang ingin dikembangkan.</p></div><div class="hero-badge">🧑‍💻</div></div>
+      <div class="glass map"><div class="section-head"><h2>🗺️ 53 LEVEL</h2><span id="progressText"></span></div><div id="levelGrid" class="level-grid"></div></div>
+      <div id="challengePanel" class="glass challenge hidden"><div class="challenge-top"><span id="challengeLevel"></span><span id="challengeType"></span></div><h2 id="challengeTitle"></h2><p id="challengeQuestion"></p><div id="challengeArea"></div><div id="challengeFeedback"></div><button id="submitChallenge" class="primary hidden">JAWAB</button><button id="nextLevel" class="primary hidden">LANJUT KE LEVEL BERIKUTNYA</button></div>
+    </div>
+  </section>
+</main></section>
+<script src="script.js"></script>
+</body></html>
