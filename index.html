@@ -1,51 +1,599 @@
+```html
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>RPG SMK PINTAR — SMK 17 Muncar</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <div id="toast" class="toast"></div>
+
+<!-- =========================
+     AUTH SCREEN
+========================= -->
 <section id="authScreen" class="screen auth-screen">
+
   <div class="auth-card glass">
+
     <div class="brand-mark">⚔️</div>
-    <h1>RPG SMK PINTAR</h1><p class="subtitle">SMK 17 MUNCAR • RPL ADVENTURE • LEVEL 1–53</p>
-    <div class="tabs"><button class="tab active" data-tab="login">LOGIN</button><button class="tab" data-tab="register">DAFTAR</button></div>
+
+    <h1>RPG SMK PINTAR</h1>
+
+    <p class="subtitle">
+      SMK 17 MUNCAR • RPL ADVENTURE • LEVEL 1–53
+    </p>
+
+    <!-- TAB -->
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        data-tab="login">
+        LOGIN
+      </button>
+
+      <button
+        class="tab"
+        data-tab="register">
+        DAFTAR
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         LOGIN
+    ========================== -->
     <form id="loginForm" class="form-panel">
-      <input id="loginUser" required placeholder="Username"><input id="loginPass" required type="password" placeholder="Password">
-      <button class="primary" type="submit">MASUK PETUALANGAN</button>
-      <p id="loginHint" class="hint">Akun demo: rplx / rpl123</p>
+
+      <input
+        id="loginUser"
+        required
+        autocomplete="username"
+        placeholder="Username">
+
+      <input
+        id="loginPass"
+        required
+        type="password"
+        autocomplete="current-password"
+        placeholder="Password">
+
+      <button
+        class="primary"
+        type="submit">
+        MASUK PETUALANGAN
+      </button>
+
+      <!-- Tidak ada lagi informasi akun demo -->
+      <p id="loginHint" class="hint"></p>
+
     </form>
-    <form id="registerForm" class="form-panel hidden">
-      <input id="regName" required placeholder="Nama lengkap"><input id="regClass" required placeholder="Kelas, contoh: XI RPL 1">
-      <input id="regUser" required placeholder="Username"><input id="regPass" required minlength="4" type="password" placeholder="Password minimal 4 karakter">
-      <select id="regMajor"><option>RPL</option><option>AKL</option><option>BDP</option><option>PH</option><option>TO</option><option>TP</option></select>
-      <button class="primary" type="submit">DAFTAR & MULAI</button>
-      <p class="hint">Data pendaftaran dapat dikirim ke Google Sheets setelah URL Apps Script diisi.</p>
+
+
+    <!-- =========================
+         REGISTER
+    ========================== -->
+    <form
+      id="registerForm"
+      class="form-panel hidden">
+
+      <!-- NAMA LENGKAP -->
+      <input
+        id="regName"
+        required
+        autocomplete="name"
+        placeholder="Nama lengkap">
+
+
+      <!-- PILIHAN KELAS -->
+      <select
+        id="regClass"
+        required>
+
+        <option value="" selected disabled>
+          Pilih Kelas
+        </option>
+
+        <option value="X RPL">
+          X RPL
+        </option>
+
+        <option value="XI RPL">
+          XI RPL
+        </option>
+
+        <option value="XII RPL">
+          XII RPL
+        </option>
+
+      </select>
+
+
+      <!-- USERNAME -->
+      <input
+        id="regUser"
+        required
+        autocomplete="username"
+        placeholder="Username">
+
+
+      <!-- PASSWORD -->
+      <input
+        id="regPass"
+        required
+        minlength="4"
+        type="password"
+        autocomplete="new-password"
+        placeholder="Password minimal 4 karakter">
+
+
+      <!-- PROGRAM KEAHLIAN -->
+      <!-- Dibuat otomatis RPL dan tidak perlu dipilih -->
+      <input
+        type="hidden"
+        id="regMajor"
+        value="RPL">
+
+
+      <button
+        class="primary"
+        type="submit">
+        DAFTAR & MULAI
+      </button>
+
+
+      <p class="hint">
+        Data pendaftaran dapat dikirim ke Google Sheets
+        setelah URL Apps Script diisi.
+      </p>
+
     </form>
-    <div class="demo"><b>Demo:</b> rplx/rpl123 • rpli/rpl123 • rplii/rpl123 • rpliii/rpl123 • superadmin/admin123</div>
+
   </div>
+
 </section>
 
-<section id="gameScreen" class="screen hidden">
-<header class="topbar"><div><b>⚔️ RPG SMK PINTAR</b><small> SMK 17 Muncar • Rekayasa Perangkat Lunak</small></div><div id="hud"></div><button id="logoutBtn" class="ghost">Keluar</button></header>
-<main class="layout">
-  <aside class="side glass">
-    <div class="portrait"><img src="assets/hero.png" alt="Hero RPL"></div>
-    <h2 id="playerName">Petualang</h2><p id="playerClass"></p>
-    <div class="stat"><span>Level</span><b id="sideLevel">1</b></div><div class="stat"><span>XP</span><b id="sideXp">0</b></div><div class="stat"><span>HP</span><b id="sideHp">100</b></div>
-    <div class="xpbar"><i id="xpBar"></i></div><small id="xpLabel">0/100 XP</small>
-    <div id="characterPicker" class="character-picker"><p class="hint">Pilih karakter</p><div class="char-grid"><button data-char="coder">🧑‍💻<b>CODER</b><small>+10% XP</small></button><button data-char="designer">🧙<b>DESIGNER</b><small>+15 HP</small></button><button data-char="debugger">🦸<b>DEBUGGER</b><small>+1 kesempatan</small></button></div></div><button id="continueBtn" class="primary full">▶ LANJUTKAN PETUALANGAN</button>
-  </aside>
-  <section class="content">
-    <div id="adminPanel" class="glass hidden"><div class="section-head"><h2>🛡️ SUPERADMIN — DATA PEMAIN</h2><button id="refreshAdmin" class="primary">Refresh</button></div><div id="adminStats" class="admin-stats"></div><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Nama</th><th>Kelas</th><th>Username</th><th>Major</th><th>Level</th><th>XP</th><th>Event</th><th>Detail</th></tr></thead><tbody id="playerRows"></tbody></table></div></div>
-    <div id="playerPanel">
-      <div class="glass welcome"><div><p class="eyebrow">PETA PETUALANGAN</p><h1>RPL ADVENTURE</h1><p>53 tantangan berbeda: 50 tantangan RPL + 3 level refleksi jujur tentang harapan, RPL, dan karya yang ingin dikembangkan.</p></div><div class="hero-badge">🧑‍💻</div></div>
-      <div class="glass map"><div class="section-head"><h2>🗺️ 53 LEVEL</h2><span id="progressText"></span></div><div id="levelGrid" class="level-grid"></div></div>
-      <div id="challengePanel" class="glass challenge hidden"><div class="challenge-top"><span id="challengeLevel"></span><span id="challengeType"></span></div><h2 id="challengeTitle"></h2><p id="challengeQuestion"></p><div id="challengeArea"></div><div id="challengeFeedback"></div><button id="submitChallenge" class="primary hidden">JAWAB</button><button id="nextLevel" class="primary hidden">LANJUT KE LEVEL BERIKUTNYA</button></div>
+
+<!-- =========================
+     GAME SCREEN
+========================= -->
+<section
+  id="gameScreen"
+  class="screen hidden">
+
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+
+    <div>
+
+      <b>
+        ⚔️ RPG SMK PINTAR
+      </b>
+
+      <small>
+        SMK 17 Muncar • Rekayasa Perangkat Lunak
+      </small>
+
     </div>
-  </section>
-</main></section>
+
+
+    <div id="hud"></div>
+
+
+    <button
+      id="logoutBtn"
+      class="ghost">
+      Keluar
+    </button>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN LAYOUT
+  ========================== -->
+  <main class="layout">
+
+
+    <!-- =========================
+         SIDEBAR PLAYER
+    ========================== -->
+    <aside class="side glass">
+
+      <div class="portrait">
+
+        <img
+          src="assets/hero.png"
+          alt="Hero RPL">
+
+      </div>
+
+
+      <h2 id="playerName">
+        Petualang
+      </h2>
+
+      <p id="playerClass"></p>
+
+
+      <!-- LEVEL -->
+      <div class="stat">
+
+        <span>
+          Level
+        </span>
+
+        <b id="sideLevel">
+          1
+        </b>
+
+      </div>
+
+
+      <!-- XP -->
+      <div class="stat">
+
+        <span>
+          XP
+        </span>
+
+        <b id="sideXp">
+          0
+        </b>
+
+      </div>
+
+
+      <!-- HP -->
+      <div class="stat">
+
+        <span>
+          HP
+        </span>
+
+        <b id="sideHp">
+          100
+        </b>
+
+      </div>
+
+
+      <!-- XP BAR -->
+      <div class="xpbar">
+
+        <i id="xpBar"></i>
+
+      </div>
+
+      <small id="xpLabel">
+        0/100 XP
+      </small>
+
+
+      <!-- CHARACTER -->
+      <div
+        id="characterPicker"
+        class="character-picker">
+
+        <p class="hint">
+          Pilih karakter
+        </p>
+
+
+        <div class="char-grid">
+
+
+          <!-- CODER -->
+          <button
+            data-char="coder">
+
+            🧑‍💻
+
+            <b>
+              CODER
+            </b>
+
+            <small>
+              +10% XP
+            </small>
+
+          </button>
+
+
+          <!-- DESIGNER -->
+          <button
+            data-char="designer">
+
+            🧙
+
+            <b>
+              DESIGNER
+            </b>
+
+            <small>
+              +15 HP
+            </small>
+
+          </button>
+
+
+          <!-- DEBUGGER -->
+          <button
+            data-char="debugger">
+
+            🦸
+
+            <b>
+              DEBUGGER
+            </b>
+
+            <small>
+              +1 kesempatan
+            </small>
+
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- CONTINUE -->
+      <button
+        id="continueBtn"
+        class="primary full">
+
+        ▶ LANJUTKAN PETUALANGAN
+
+      </button>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+    <section class="content">
+
+
+      <!-- =========================
+           ADMIN PANEL
+      ========================== -->
+      <div
+        id="adminPanel"
+        class="glass hidden">
+
+        <div class="section-head">
+
+          <h2>
+            🛡️ SUPERADMIN — DATA PEMAIN
+          </h2>
+
+          <button
+            id="refreshAdmin"
+            class="primary">
+
+            Refresh
+
+          </button>
+
+        </div>
+
+
+        <div
+          id="adminStats"
+          class="admin-stats">
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Waktu</th>
+                <th>Nama</th>
+                <th>Kelas</th>
+                <th>Username</th>
+                <th>Major</th>
+                <th>Level</th>
+                <th>XP</th>
+                <th>Event</th>
+                <th>Detail</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="playerRows">
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           PLAYER PANEL
+      ========================== -->
+      <div id="playerPanel">
+
+
+        <!-- WELCOME -->
+        <div
+          class="glass welcome">
+
+          <div>
+
+            <p class="eyebrow">
+              PETA PETUALANGAN
+            </p>
+
+            <h1>
+              RPL ADVENTURE
+            </h1>
+
+            <p>
+              53 tantangan berbeda:
+              50 tantangan RPL +
+              3 level refleksi jujur tentang
+              harapan, RPL, dan karya yang
+              ingin dikembangkan.
+            </p>
+
+          </div>
+
+
+          <div class="hero-badge">
+            🧑‍💻
+          </div>
+
+        </div>
+
+
+        <!-- LEVEL MAP -->
+        <div
+          class="glass map">
+
+          <div class="section-head">
+
+            <h2>
+              🗺️ 53 LEVEL
+            </h2>
+
+            <span id="progressText"></span>
+
+          </div>
+
+
+          <div
+            id="levelGrid"
+            class="level-grid">
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             CHALLENGE
+        ========================== -->
+        <div
+          id="challengePanel"
+          class="glass challenge hidden">
+
+
+          <div class="challenge-top">
+
+            <span id="challengeLevel"></span>
+
+            <span id="challengeType"></span>
+
+          </div>
+
+
+          <h2 id="challengeTitle"></h2>
+
+
+          <p id="challengeQuestion"></p>
+
+
+          <div
+            id="challengeArea">
+          </div>
+
+
+          <div
+            id="challengeFeedback">
+          </div>
+
+
+          <button
+            id="submitChallenge"
+            class="primary hidden">
+
+            JAWAB
+
+          </button>
+
+
+          <button
+            id="nextLevel"
+            class="primary hidden">
+
+            LANJUT KE LEVEL BERIKUTNYA
+
+          </button>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</section>
+
+
+<!-- SCRIPT -->
 <script src="script.js"></script>
-</body></html>
+
+</body>
+</html>
+```
+
+### Perubahan utama
+
+Form pendaftaran sekarang alurnya:
+
+**Nama Lengkap → Pilih Kelas → Username → Password → Daftar**
+
+Pilihan kelas hanya:
+
+```html
+<select id="regClass" required>
+  <option value="" selected disabled>Pilih Kelas</option>
+  <option value="X RPL">X RPL</option>
+  <option value="XI RPL">XI RPL</option>
+  <option value="XII RPL">XII RPL</option>
+</select>
+```
+
+Dan **Program Keahlian tidak perlu dipilih lagi**, karena otomatis:
+
+```javascript
+major = "RPL"
+```
+
+Saya juga sudah menghapus dari tampilan:
+
+```text
+Akun demo: rplx / rpl123
+```
+
+dan:
+
+```text
+Demo: rplx/rpl123 • rpli/rpl123 • ...
+```
+
+Jadi halaman login terlihat lebih bersih dan peserta hanya melihat **LOGIN** dan **DAFTAR**.
+
+**Penting:** `script.js` Anda juga sebaiknya saya edit sedikit agar validasi kelas benar-benar hanya menerima `X RPL`, `XI RPL`, atau `XII RPL`, termasuk agar akun yang didaftarkan tidak bisa memanipulasi `major` selain `RPL`.
